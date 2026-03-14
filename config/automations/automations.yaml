@@ -304,6 +304,60 @@
       target:
         entity_id: input_boolean.vacation_mode
 
+- alias: "Household State - Bill Returning"
+  id: household_state_bill_returning
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.ponophone_distance
+      below: 2000
+  condition:
+    - condition: state
+      entity_id: input_select.household_state
+      state: "Away"
+    - condition: state
+      entity_id: person.bill_babcock
+      state: "not_home"
+    - condition: template
+      value_template: >
+        {{ states('sensor.ponophone_activity') == 'Automotive' }}
+  action:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.household_state
+      data:
+        option: Returning
+    - service: notify.mobile_app_ponophone
+      data:
+        title: "Welcome Back"
+        message: "Returning home detected - pre-heating water"
+
+
+- alias: "Household State - Diane Returning"
+  id: household_state_diane_returning
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.dianes_iphone_17_air_distance
+      below: 2000
+  condition:
+    - condition: state
+      entity_id: input_select.household_state
+      state: "Away"
+    - condition: state
+      entity_id: person.diane
+      state: "not_home"
+    - condition: template
+      value_template: >
+        {{ states('sensor.dianes_iphone_17_air_activity') == 'Automotive' }}
+  action:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.household_state
+      data:
+        option: Returning
+    - service: notify.mobile_app_ponophone
+      data:
+        title: "Welcome Back"
+        message: "Diane returning home - pre-heating water"
 
 - alias: "Household State - Extended Away Auto"
   id: household_state_extended_away_auto
