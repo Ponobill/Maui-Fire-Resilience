@@ -1,0 +1,602 @@
+# ============================================================
+# Fire Resilience System Automations
+# ============================================================
+
+- id: fire_system_auto_arm
+  alias: "Fire System - Auto Arm on Elevated Danger"
+  description: "Arms the fire system when wind or humidity cross thresholds"
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.pono_weather_wind_speed
+      above: input_number.fire_wind_threshold
+    - platform: numeric_state
+      entity_id: sensor.pono_weather_humidity
+      below: input_number.fire_humidity_threshold
+    - platform: state
+      entity_id: binary_sensor.red_flag_conditions
+      to: "on"
+  action:
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.fire_system_armed
+    - service: notify.mobile_app_ponophone
+      data:
+        title: "🔥 Fire System Armed"
+        message: >
+          Fire danger elevated. Wind: {{ states('sensor.pono_weather_wind_speed') }} mph,
+          Humidity: {{ states('sensor.pono_weather_humidity') }}%.
+          Danger Index: {{ states('sensor.fire_danger_index') }} pts ({{ state_attr('sensor.fire_danger_index', 'level') }})
+    - service: notify.mobile_app_dianes_iphone_17_air
+      data:
+        title: "🔥 Fire System Armed"
+        message: >
+          Fire danger elevated. Wind: {{ states('sensor.pono_weather_wind_speed') }} mph,
+          Humidity: {{ states('sensor.pono_weather_humidity') }}%.
+          Danger Index: {{ states('sensor.fire_danger_index') }} pts ({{ state_attr('sensor.fire_danger_index', 'level') }})
+  mode: single
+
+- id: fire_system_prestage
+  alias: "Fire System - Pre-Stage on High Danger"
+  description: "Turns on sprinkler pump to pressurize system when danger is high"
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.fire_danger_index
+      above: 39
+    - platform: state
+      entity_id: binary_sensor.red_flag_conditions
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.fire_system_armed
+      state: "on"
+  action:
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.fire_system_prestage
+    - service: switch.turn_on
+      target:
+        entity_id: switch.aux4
+    - service: notify.mobile_app_ponophone
+      data:
+        title: "🔥 Fire System Pre-Staged"
+        message: >
+          Sprinkler pump ON. System pressurized and ready.
+          Danger Index: {{ states('sensor.fire_danger_index') }} pts ({{ state_attr('sensor.fire_danger_index', 'level') }}).
+          Wind: {{ states('sensor.pono_weather_wind_speed') }} mph,
+          Humidity: {{ states('sensor.pono_weather_humidity') }}%
+    - service: notify.mobile_app_dianes_iphone_17_air
+      data:
+        title: "🔥 Fire System Pre-Staged"
+        message: >
+          Sprinkler pump ON. System pressurized and ready.
+          Danger Index: {{ states('sensor.fire_danger_index') }} pts ({{ state_attr('sensor.fire_danger_index', 'level') }}).
+          Wind: {{ states('sensor.pono_weather_wind_speed') }} mph,
+          Humidity: {{ states('sensor.pono_weather_humidity') }}%
+  mode: single
+
+- id: fire_system_emergency
+  alias: "Fire System - Emergency Sprinkler Activation"
+  description: "Activates all sprinkler zones - manual or satellite fire detection"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.fire_system_emergency
+      to: "on"
+    - platform: numeric_state
+      entity_id: sensor.firms_local_fire_detection
+      above: 0
+  action:
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.fire_system_emergency
+    - service: switch.turn_on
+      target:
+        entity_id: switch.aux4
+    - service: switch.turn_on
+      target:
+        entity_id:
+          - switch.sprinkler01_station_enabled
+          - switch.sprinkler02_station_enabled
+          - switch.sprinkler03_station_enabled
+          - switch.sprinkler04_station_enabled
+          - switch.sprinkler05_station_enabled
+          - switch.sprinkler06_station_enabled
+    - service: notify.mobile_app_ponophone
+      data:
+        title: "🚨 FIRE EMERGENCY - Sprinklers Activated"
+        message: >
+          ALL ZONES ACTIVE. Sprinkler pump running.
+          FIRMS local detections: {{ states('sensor.firms_local_fire_detection') }}.
+          Wind: {{ states('sensor.pono_weather_wind_speed') }} mph,
+          Humidity: {{ states('sensor.pono_weather_humidity') }}%
+    - service: notify.mobile_app_dianes_iphone_17_air
+      data:
+        title: "🚨 FIRE EMERGENCY - Sprinklers Activated"
+        message: >
+          ALL ZONES ACTIVE. Sprinkler pump running.
+          FIRMS local detections: {{ states('sensor.firms_local_fire_detection') }}.
+          Wind: {{ states('sensor.pono_weather_wind_speed') }} mph,
+          Humidity: {{ states('sensor.pono_weather_humidity') }}%
+  mode: single
+
+- id: fire_system_stand_down
+  alias: "Fire System - Stand Down"
+  description: "Shuts off all sprinklers and resets system to monitoring mode"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.fire_system_armed
+      to: "off"
+  action:
+    - service: input_boolean.turn_off
+      target:
+        entity_id:
+          - input_boolean.fire_system_prestage
+          - input_boolean.fire_system_emergency
+    - service: switch.turn_off
+      target:
+        entity_id: switch.aux4
+    - service: switch.turn_off
+      target:
+        entity_id:
+          - switch.sprinkler01_station_enabled
+          - switch.sprinkler02_station_enabled
+          - switch.sprinkler03_station_enabled
+          - switch.sprinkler04_station_enabled
+          - switch.sprinkler05_station_enabled
+          - switch.sprinkler06_station_enabled
+    - service: notify.mobile_app_ponophone
+      data:
+        title: "✅ Fire System Stand Down"
+        message: "All sprinklers off. System returned to monitoring mode."
+    - service: notify.mobile_app_dianes_iphone_17_air
+      data:
+        title: "✅ Fire System Stand Down"
+        message: "All sprinklers off. System returned to monitoring mode."
+  mode: single
+
+- id: fire_system_auto_disarm
+  alias: "Fire System - Auto Disarm on Normal Conditions"
+  description: "Disarms system when conditions return to normal for 30 minutes"
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.fire_danger_index
+      below: 20
+      for:
+        minutes: 30
+  condition:
+    - condition: state
+      entity_id: input_boolean.fire_system_armed
+      state: "on"
+    - condition: state
+      entity_id: input_boolean.fire_system_emergency
+      state: "off"
+  action:
+    - service: input_boolean.turn_off
+      target:
+        entity_id:
+          - input_boolean.fire_system_armed
+          - input_boolean.fire_system_prestage
+    - service: switch.turn_off
+      target:
+        entity_id: switch.aux4
+    - service: notify.mobile_app_ponophone
+      data:
+        title: "✅ Fire System Disarmed"
+        message: "Conditions returned to normal. System disarmed."
+    - service: notify.mobile_app_dianes_iphone_17_air
+      data:
+        title: "✅ Fire System Disarmed"
+        message: "Conditions returned to normal. System disarmed."
+  mode: single
+
+- alias: "FIRMS Hawaii Island Chain Logger"
+  description: "Logs per-island fire detections to CSV whenever any sensor updates and total > 0"
+  mode: queued
+  max: 10
+  trigger:
+    - platform: state
+      entity_id:
+        - sensor.firms_big_island_active_fires
+        - sensor.firms_maui_active_fires
+        - sensor.firms_local_fire_detection
+        - sensor.firms_oahu_active_fires
+        - sensor.firms_kauai_active_fires
+        - sensor.firms_molokai_active_fires
+        - sensor.firms_lanai_active_fires
+  condition:
+    - condition: template
+      value_template: >
+        {{ states('sensor.firms_big_island_active_fires') | int(0) +
+           states('sensor.firms_maui_active_fires') | int(0) +
+           states('sensor.firms_oahu_active_fires') | int(0) +
+           states('sensor.firms_kauai_active_fires') | int(0) +
+           states('sensor.firms_molokai_active_fires') | int(0) +
+           states('sensor.firms_lanai_active_fires') | int(0) > 0 }}
+  action:
+    - service: shell_command.log_firms_detection
+      data:
+        message: >
+          {{ now().isoformat() }},{{ trigger.entity_id }},{{ trigger.from_state.state }},{{ trigger.to_state.state }},{{ states('sensor.firms_big_island_active_fires') | int(0) }},{{ states('sensor.firms_maui_active_fires') | int(0) }},{{ states('sensor.firms_local_fire_detection') | int(0) }},{{ states('sensor.firms_oahu_active_fires') | int(0) }},{{ states('sensor.firms_kauai_active_fires') | int(0) }},{{ states('sensor.firms_molokai_active_fires') | int(0) }},{{ states('sensor.firms_lanai_active_fires') | int(0) }}
+
+
+- alias: "Household State - Both Away"
+  id: household_state_both_away
+  trigger:
+    - platform: state
+      entity_id: person.bill_babcock
+      to: "not_home"
+      for:
+        minutes: 5
+    - platform: state
+      entity_id: person.diane
+      to: "not_home"
+      for:
+        minutes: 5
+  condition:
+    - condition: state
+      entity_id: person.bill_babcock
+      state: "not_home"
+    - condition: state
+      entity_id: person.diane
+      state: "not_home"
+    - condition: template
+      value_template: >
+        {{ states('sensor.ponophone_ssid') not in 
+           ['ponohouse', 'ponohouse_5GEXT', 'ponohouse_2GEXT'] }}
+    - condition: template
+      value_template: >
+        {{ states('sensor.dianes_iphone_17_air_ssid') not in 
+           ['ponohouse', 'ponohouse_5GEXT', 'ponohouse_2GEXT'] }}
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: "off"
+  action:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.household_state
+      data:
+        option: Away
+    - service: notify.mobile_app_ponophone
+      data:
+        title: "House Status"
+        message: "Both away - energy saving mode active"
+
+- alias: "Household State - Someone Arrives Home"
+  id: household_state_someone_home
+  trigger:
+    - platform: state
+      entity_id: person.bill_babcock
+      to: "home"
+    - platform: state
+      entity_id: person.diane
+      to: "home"
+    - platform: template
+      value_template: >
+        {{ states('sensor.ponophone_ssid') in 
+           ['ponohouse', 'ponohouse_5GEXT', 'ponohouse_2GEXT'] }}
+    - platform: template
+      value_template: >
+        {{ states('sensor.dianes_iphone_17_air_ssid') in 
+           ['ponohouse', 'ponohouse_5GEXT', 'ponohouse_2GEXT'] }}
+  condition:
+    - condition: or
+      conditions:
+        - condition: state
+          entity_id: person.bill_babcock
+          state: "home"
+        - condition: state
+          entity_id: person.diane
+          state: "home"
+        - condition: template
+          value_template: >
+            {{ states('sensor.ponophone_ssid') in 
+               ['ponohouse', 'ponohouse_5GEXT', 'ponohouse_2GEXT'] }}
+        - condition: template
+          value_template: >
+            {{ states('sensor.dianes_iphone_17_air_ssid') in 
+               ['ponohouse', 'ponohouse_5GEXT', 'ponohouse_2GEXT'] }}
+  action:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.household_state
+      data:
+        option: Home
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.vacation_mode
+
+
+- alias: "Household State - Extended Away Auto"
+  id: household_state_extended_away_auto
+  trigger:
+    - platform: state
+      entity_id: input_select.household_state
+      to: "Away"
+      for:
+        hours: 8
+  condition:
+    - condition: state
+      entity_id: input_boolean.vacation_mode
+      state: "off"
+  action:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.household_state
+      data:
+        option: Extended Away
+    - service: notify.mobile_app_ponophone
+      data:
+        title: "House Status"
+        message: "Extended Away mode - minimum energy settings active"
+
+- alias: "Household State - Vacation Mode On"
+  id: household_state_vacation_on
+  trigger:
+    - platform: state
+      entity_id: input_boolean.vacation_mode
+      to: "on"
+  action:
+    - service: input_select.select_option
+      target:
+        entity_id: input_select.household_state
+      data:
+        option: Extended Away
+    - service: notify.mobile_app_ponophone
+      data:
+        title: "Vacation Mode"
+        message: "Vacation mode active - all loads at minimum"
+
+- alias: "Household State - Vacation Mode Off"
+  id: household_state_vacation_off
+  trigger:
+    - platform: state
+      entity_id: input_boolean.vacation_mode
+      to: "off"
+  action:
+    - if:
+        - condition: or
+          conditions:
+            - condition: state
+              entity_id: person.bill_babcock
+              state: "home"
+            - condition: state
+              entity_id: person.diane
+              state: "home"
+      then:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.household_state
+          data:
+            option: Home
+      else:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.household_state
+          data:
+            option: Away
+
+- alias: "Guest House - Occupied"
+  id: guest_house_occupied
+  trigger:
+    - platform: state
+      entity_id: input_boolean.guest_house_occupied
+      to: "on"
+  action:
+    - service: water_heater.set_temperature
+      target:
+        entity_id: water_heater.electric_water_heater
+      data:
+        temperature: 49
+    - service: notify.mobile_app_ponophone
+      data:
+        title: "Guest House"
+        message: "Guest mode on - water heater set to 120F"
+
+- alias: "Guest House - Unoccupied"
+  id: guest_house_unoccupied
+  trigger:
+    - platform: state
+      entity_id: input_boolean.guest_house_occupied
+      to: "off"
+  action:
+    - service: water_heater.set_temperature
+      target:
+        entity_id: water_heater.electric_water_heater
+      data:
+        temperature: 43
+    - service: notify.mobile_app_ponophone
+      data:
+        title: "Guest House"
+        message: "Guest mode off - water heater set to minimum"
+
+- alias: "Main WH - Away Mode On"
+  id: main_wh_away_on
+  trigger:
+    - platform: state
+      entity_id: input_select.household_state
+      to:
+        - "Away"
+        - "Extended Away"
+  action:
+    - service: water_heater.set_away_mode
+      target:
+        entity_id: water_heater.heat_pump_water_heater
+      data:
+        away_mode: true
+
+- alias: "Main WH - Away Mode Off"
+  id: main_wh_away_off
+  trigger:
+    - platform: state
+      entity_id: input_select.household_state
+      to: "Home"
+  action:
+    - service: water_heater.set_away_mode
+      target:
+        entity_id: water_heater.heat_pump_water_heater
+      data:
+        away_mode: false
+    - service: water_heater.set_operation_mode
+      target:
+        entity_id: water_heater.heat_pump_water_heater
+      data:
+        operation_mode: "eco"
+
+- alias: "Main WH - Pre-heat on Return"
+  id: main_wh_preheat_return
+  trigger:
+    - platform: state
+      entity_id: input_select.household_state
+      to: "Returning"
+  condition:
+    - condition: numeric_state
+      entity_id: sensor.electric_water_heater_available_hot_water
+      below: 70
+  action:
+    - service: water_heater.set_operation_mode
+      target:
+        entity_id: water_heater.heat_pump_water_heater
+      data:
+        operation_mode: "high_demand"
+    - delay:
+        minutes: 45
+    - service: water_heater.set_operation_mode
+      target:
+        entity_id: water_heater.heat_pump_water_heater
+      data:
+        operation_mode: "eco"
+
+- alias: "Pool Pump - Solar Peak On"
+  id: pool_pump_solar_on
+  trigger:
+    - platform: time
+      at: "10:00:00"
+  condition:
+    - condition: numeric_state
+      entity_id: sensor.luxpower_lxp_battery_state_of_charge
+      above: 20
+  action:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.pool_pump
+
+- alias: "Pool Pump - Solar Peak Off"
+  id: pool_pump_solar_off
+  trigger:
+    - platform: time
+      at: "15:30:00"
+  action:
+    - service: switch.turn_off
+      target:
+        entity_id: switch.pool_pump
+
+- alias: "Pool Pump - Low Battery Stop"
+  id: pool_pump_low_battery
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.luxpower_lxp_battery_state_of_charge
+      below: 20
+  condition:
+    - condition: state
+      entity_id: switch.pool_pump
+      state: "on"
+  action:
+    - service: switch.turn_off
+      target:
+        entity_id: switch.pool_pump
+    - service: notify.mobile_app_ponophone
+      data:
+        title: "Battery Low"
+        message: "Pool pump stopped - battery SOC below 20%"
+
+
+- alias: "Pool Pump - Battery Recovered"
+  id: pool_pump_battery_recovered
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.luxpower_lxp_battery_state_of_charge
+      above: 30
+  condition:
+    - condition: time
+      after: "10:00:00"
+      before: "15:30:00"
+    - condition: state
+      entity_id: switch.pool_pump
+      state: "off"
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: input_select.household_state
+          state: "Extended Away"
+  action:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.pool_pump
+
+- alias: "Pool Pump - Extended Away Minimum"
+  id: pool_pump_extended_away
+  trigger:
+    - platform: time
+      at: "11:00:00"
+  condition:
+    - condition: state
+      entity_id: input_select.household_state
+      state: "Extended Away"
+    - condition: numeric_state
+      entity_id: sensor.luxpower_lxp_battery_state_of_charge
+      above: 30
+  action:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.pool_pump
+    - delay:
+        hours: 2
+    - service: switch.turn_off
+      target:
+        entity_id: switch.pool_pump
+
+- alias: "Solar Surplus - Heat Water"
+  id: solar_surplus_heat_water
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.luxpower_lxp_battery_state_of_charge
+      above: 95
+      for:
+        minutes: 15
+  condition:
+    - condition: numeric_state
+      entity_id: sensor.luxpower_lxp_pv_power_1
+      above: 2000
+    - condition: time
+      after: "09:00:00"
+      before: "15:00:00"
+    - condition: or
+      conditions:
+        - condition: state
+          entity_id: input_select.household_state
+          state: "Home"
+        - condition: state
+          entity_id: input_boolean.guest_house_occupied
+          state: "on"
+    - condition: numeric_state
+      entity_id: sensor.electric_water_heater_available_hot_water
+      below: 90
+  action:
+    - service: water_heater.set_operation_mode
+      target:
+        entity_id: water_heater.heat_pump_water_heater
+      data:
+        operation_mode: "electric"
+    - service: notify.mobile_app_ponophone
+      data:
+        title: "Solar Surplus"
+        message: "Battery full - boosting water heater with solar surplus"
+    - delay:
+        hours: 1
+    - service: water_heater.set_operation_mode
+      target:
+        entity_id: water_heater.heat_pump_water_heater
+      data:
+        operation_mode: "eco"
+
+
+

@@ -1,0 +1,103 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+template: !include_dir_merge_list includes/templates/
+sensor:
+  - platform: rest
+    name: "FIRMS Big Island MODIS Active Fires"
+    unique_id: "firms_big_island_modis_active_fires"
+    resource: "https://firms.modaps.eosdis.nasa.gov/api/area/csv/1c86f84610c15adc2207cf8d43ab89a2/MODIS_NRT/-156.1,18.9,-154.8,20.3/1"
+    method: GET
+    scan_interval: 3600
+    value_template: >
+      {% set lines = value.split('\n') | select('match', '^[0-9]') | list %}
+      {{ lines | length }}
+    unit_of_measurement: "detections"
+  - platform: rest
+    name: "FIRMS Big Island Active Fires"
+    unique_id: "firms_big_island_active_fires"
+    resource: "https://firms.modaps.eosdis.nasa.gov/api/area/csv/1c86f84610c15adc2207cf8d43ab89a2/VIIRS_NOAA20_NRT/-156.1,18.9,-154.8,20.3/1"
+    method: GET
+    scan_interval: 3600
+    value_template: >
+      {% set lines = value.split('\n') | select('match', '^[0-9]') | list %}
+      {{ lines | length }}
+    unit_of_measurement: "detections"
+
+  - platform: rest
+    name: "FIRMS Oahu Active Fires"
+    unique_id: "firms_oahu_active_fires"
+    resource: "https://firms.modaps.eosdis.nasa.gov/api/area/csv/1c86f84610c15adc2207cf8d43ab89a2/VIIRS_NOAA20_NRT/-158.3,21.2,-157.6,21.7/1"
+    method: GET
+    scan_interval: 3600
+    value_template: >
+      {% set lines = value.split('\n') | select('match', '^[0-9]') | list %}
+      {{ lines | length }}
+    unit_of_measurement: "detections"
+
+  - platform: rest
+    name: "FIRMS Kauai Active Fires"
+    unique_id: "firms_kauai_active_fires"
+    resource: "https://firms.modaps.eosdis.nasa.gov/api/area/csv/1c86f84610c15adc2207cf8d43ab89a2/VIIRS_NOAA20_NRT/-159.8,21.8,-159.3,22.2/1"
+    method: GET
+    scan_interval: 3600
+    value_template: >
+      {% set lines = value.split('\n') | select('match', '^[0-9]') | list %}
+      {{ lines | length }}
+    unit_of_measurement: "detections"
+
+  - platform: rest
+    name: "FIRMS Molokai Active Fires"
+    unique_id: "firms_molokai_active_fires"
+    resource: "https://firms.modaps.eosdis.nasa.gov/api/area/csv/1c86f84610c15adc2207cf8d43ab89a2/VIIRS_NOAA20_NRT/-157.3,21.0,-156.7,21.3/1"
+    method: GET
+    scan_interval: 3600
+    value_template: >
+      {% set lines = value.split('\n') | select('match', '^[0-9]') | list %}
+      {{ lines | length }}
+    unit_of_measurement: "detections"
+
+  - platform: rest
+    name: "FIRMS Lanai Active Fires"
+    unique_id: "firms_lanai_active_fires"
+    resource: "https://firms.modaps.eosdis.nasa.gov/api/area/csv/1c86f84610c15adc2207cf8d43ab89a2/VIIRS_NOAA20_NRT/-157.1,20.7,-156.8,20.9/1"
+    method: GET
+    scan_interval: 3600
+    value_template: >
+      {% set lines = value.split('\n') | select('match', '^[0-9]') | list %}
+      {{ lines | length }}
+    unit_of_measurement: "detections"
+      
+  - platform: rest
+    name: "FIRMS Maui Active Fires"
+    unique_id: "firms_maui_active_fires"
+    resource: "https://firms.modaps.eosdis.nasa.gov/api/area/csv/1c86f84610c15adc2207cf8d43ab89a2/VIIRS_NOAA20_NRT/-156.8,20.5,-155.9,21.1/1"
+    method: GET
+    scan_interval: 3600
+    value_template: >
+      {% set lines = value.split('\n') | select('match', '^[0-9]') | list %}
+      {{ lines | length }}
+    unit_of_measurement: "detections"
+
+  - platform: rest
+    name: "FIRMS Local Fire Detection"
+    unique_id: "firms_local_fire_detection"
+    resource: "https://firms.modaps.eosdis.nasa.gov/api/area/csv/1c86f84610c15adc2207cf8d43ab89a2/VIIRS_NOAA20_NRT/-156.345,20.857,-156.199,21.001/1"
+    method: GET
+    scan_interval: 3600
+    value_template: >
+      {% set lines = value.split('\n') | select('match', '^[0-9]') | list %}
+      {{ lines | length }}
+    unit_of_measurement: "detections"
+
+shell_command:
+  log_firms_detection: >
+    python3 -c "f=open('/config/firms_hawaii_islands.csv','a'); f.write('{{ message }}\n'); f.close()"
