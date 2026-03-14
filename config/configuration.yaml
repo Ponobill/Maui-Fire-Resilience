@@ -101,3 +101,19 @@ sensor:
 shell_command:
   log_firms_detection: >
     python3 -c "f=open('/config/firms_hawaii_islands.csv','a'); f.write('{{ message }}\n'); f.close()"
+
+template:
+  - binary_sensor:
+      - name: "Bill Phone Stale"
+        unique_id: bill_phone_stale
+        device_class: problem
+        state: >
+          {{ (now() - states.person.bill_babcock.last_updated).total_seconds() > 900 }}
+        icon: mdi:cellphone-off
+
+      - name: "Diane Phone Stale"
+        unique_id: diane_phone_stale
+        device_class: problem
+        state: >
+          {{ (now() - states.person.diane.last_updated).total_seconds() > 900 }}
+        icon: mdi:cellphone-off

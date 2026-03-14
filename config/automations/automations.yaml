@@ -653,4 +653,34 @@
         operation_mode: "eco"
 
 
+- alias: "Presence - Bill Phone Stale"
+  id: presence_bill_phone_stale
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.bill_phone_stale
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: input_select.household_state
+      state: "Away"
+  action:
+    - service: notify.mobile_app_ponophone
+      data:
+        title: "⚠️ Presence Warning"
+        message: "Bill's phone hasn't reported in 15 min - location may be unreliable"
 
+- alias: "Presence - Diane Phone Stale"
+  id: presence_diane_phone_stale
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.diane_phone_stale
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: input_select.household_state
+      state: "Away"
+  action:
+    - service: notify.mobile_app_ponophone
+      data:
+        title: "⚠️ Presence Warning"
+        message: "Diane's phone hasn't reported in 15 min - location may be unreliable"
