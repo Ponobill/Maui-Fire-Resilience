@@ -1,0 +1,319 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2868
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 TimesNewRomanPS-BoldMT;\f1\fnil\fcharset0 HelveticaNeue;\f2\froman\fcharset0 TimesNewRomanPS-ItalicMT;
+\f3\froman\fcharset0 TimesNewRomanPSMT;\f4\fnil\fcharset0 HelveticaNeue-Bold;}
+{\colortbl;\red255\green255\blue255;\red25\green60\blue102;\red0\green0\blue0;\red71\green71\blue71;
+\red37\green95\blue166;\red37\green96\blue167;}
+{\*\expandedcolortbl;;\cssrgb\c12157\c30588\c47451;\cssrgb\c0\c0\c0;\cssrgb\c34902\c34902\c34902;
+\cssrgb\c18039\c45490\c70980;\cssrgb\c18039\c45882\c71373;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid1\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\margl1440\margr1440
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs44 \cf2 \up0 \nosupersub \ulnone Your House Is Wasting Energy Right Now
+\f1\b0\fs26 \cf3 \
+\pard\pardeftab720\partightenfactor0
+
+\f2\i \cf4 How a smart energy management system pays for itself \'97 and how you and AI can build one fitted exactly to your home
+\f1\i0 \cf3 \
+\
+Here's a question worth sitting with: what percentage of the energy your home consumes right now is actually being used by anyone? Maybe first we should explain why that matters to you. Energy used to be cheap and fairly reliable. It\'92s not now, and it\'92s going to get a lot more expensive\'97soon. The time to do something about that is NOT when you can\'92t afford to keep your home comfortable. It\'92s now. \
+\
+If you're at work, the answer  to how much power is actually being used by anyone is probably close to zero. But your water heater is keeping 50 gallons at 120\'b0F. Your thermostat is maintaining a comfortable temperature in rooms nobody is sitting in. And depending on what your home is like some other loads are running for the benefit of no one, burning energy so the house will be ready when you walk back through the door.\
+\
+That sounds kind of stupid when you think about it, but it wasn\'92t worth fixing when energy was cheap. Now it\'92s expensive, and I\'92ve built a cheap way to fix it\'97that will deliver a return on investment almost immediately.\
+\pard\pardeftab720\sa400\partightenfactor0
+
+\fs24 \cf3 \
+\pard\sa160\partightenfactor0
+
+\f0\b\fs34 \cf2 How Do We Fix This?\
+\pard\pardeftab720\partightenfactor0
+
+\f1\b0\fs26 \cf3 This description isn\'92t the entire system. It\'92s just one part of a more complex whole. But this part is easy to describe and understand. The system you build will do a lot more, and we\'92ll get to that. We\'92re going to describe this as if there were just one person living at your home. but of course it can be everyone who actually lives there. Here we go:\
+\
+Your phone knows where you are. It also knows your speed, your direction, and your likely destination. Every navigation app on the planet uses this data. Your energy management system can too.\
+\
+The basic concept: when your phone crosses an outbound radius around your home, the system knows you've left. It adjusts your home to suit no one being there. Water heater drops to a maintenance temperature. Thermostat backs off \'97 not to off, just enough to stop fighting physics. If it's 90\'b0F outside and nobody's home, there's no reason to keep the house at 72\'b0F. Let it drift to 82\'b0F. At that differential, heat transfer from outside nearly stops, and it takes almost no energy to hold it there.\
+\
+When you head home, your phone crosses the inbound radius.
+\fs24 Your phone's location data includes velocity and heading. Once the system sees you moving toward home at highway speed, it can calculate your arrival time within a few minutes and stage the recovery accordingly. Walk in the door and everything is normal. Not cold. Not stuffy. Not twenty minutes behind. You\'92ll never notice the difference\'97 except on your utility bill.\
+\
+\pard\pardeftab720\sa400\partightenfactor0
+\cf3 In the addendum we talk about price\'97that\'92s for the hardware, which is off the shelf stuff. The software, which is really the system, is free. Built on open source software, using AI at the free or cheap level to implement, customize and configure. No subscriptions, no cloud, smart, very capable, expandable, and free. 
+\fs26 \
+\pard\sa160\partightenfactor0
+
+\f0\b\fs34 \cf2 Want to know more? \
+\pard\pardeftab720\partightenfactor0
+
+\f1\b0\fs26 \cf3 The rest of this description goes into the weeds. Sorry, but this is a complex system, built in a new way that AI enables. The good news is, the rest of this document is optional. You\'92ve already read the good stuff. Here\'92s the bullets:\
+\
+\'97 A system cheap enough to deliver an ROI almost immediately.\
+\
+\'97 Maintains the comfort level of your home when there is someone there to enjoy it while still reducing your energy bills. \
+\
+\'97 Can be expanded into an advanced security system and wildfire mitigation system without replacing equipment you\'92ve already bought. \
+\
+ \
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\pard\pardeftab720\sa400\partightenfactor0
+\cf3 \
+\pard\sa400\partightenfactor0
+
+\f0\b\fs34 \cf2 \
+\pard\sa280\partightenfactor0
+\cf2 Addendum\
+\pard\sa120\partightenfactor0
+
+\f3\b0\fs26 \cf5 What the System Manages\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1 \cf3 Location-aware control is the most intuitive piece, but a well-built energy management system coordinates much more.\
+\pard\sa120\partightenfactor0
+
+\f3 \cf5 Water Heating\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1 \cf3 Water heaters are typically 15\'9620% of total home energy consumption, and among the most wasteful loads \'97 running 24/7 to maintain temperature whether anyone is home, awake, or planning to shower. But they also store energy, so smart management can work on three principles: occupancy (heat when people are home, drop to minimum when they're not), solar production (run the heater at higher thermostat settings when your panels are generating excess power to store heat), and time-of-use rates (shift heating to off-peak windows when grid electricity is cheapest). Same hot water availability, significantly lower cost.\
+\pard\sa120\partightenfactor0
+
+\f3 \cf5 HVAC and Climate Control\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1 \cf3 Typically the single largest residential energy expense, and the biggest opportunity. Adaptive control based on actual occupancy, outdoor temperature, your home's thermal mass, weather forecasts, and utility pricing can reduce climate control costs by 20\'9640% without any sacrifice in comfort. How do you determine thermal mass? You don\'92t, the system figures that out. \
+\pard\sa120\partightenfactor0
+
+\f3 \cf5 Pool Equipment\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1 \cf3 Pool pumps are notorious consumers \'97 a single-speed pump running 8 hours a day can rival you HVAC for power consumption.  Smart management shifts filtration to solar production hours and adjusts run duration based on actual conditions rather than a fixed timer.\
+\pard\sa120\partightenfactor0
+
+\f3 \cf5 Phantom Loads\
+\pard\pardeftab720\partightenfactor0
+
+\f1 \cf3 The average home has 20\'9640 devices drawing standby power continuously \'97 TVs, entertainment systems, chargers, office equipment. A $12 Smart plug with power monitoring identifies the worst offenders and cuts them when nobody's home.\
+\pard\pardeftab720\sa400\partightenfactor0
+\cf3 \
+\pard\sa160\partightenfactor0
+
+\f0\b\fs34 \cf2 You'll Build It \'97 With Expert Help From Claude\
+\pard\pardeftab720\partightenfactor0
+
+\f1\b0\fs26 \cf3 Here's the question at the center of this: how can a system understand what you need, how your home works, and how you and your family actually use energy?\
+It will \'97 because you'll design it, with expert help from Claude.\
+\pard\pardeftab720\sa400\partightenfactor0
+\cf3 You don't need to be a programmer. You don't need expertise in home automation or energy systems. All you need to know is what you want. You and Claude build it together. And once you've lived with it for a while and know what works and what doesn't, you and Claude change it, tune it, perfect it.\
+\pard\sa160\partightenfactor0
+
+\f0\b\fs34 \cf2 The Battery and Solar Layer\
+\pard\pardeftab720\partightenfactor0
+
+\f1\b0\fs26 \cf3 You don\'92t have to have solar for the system to work for you, but with solar and battery storage, you're not just managing when loads run \'97 you're managing a small power plant that gives you more options and more resilience. A full system adds several operating modes: self-consumption (solar first, battery second, grid as last resort), time-of-use arbitrage (charge cheap, discharge during expensive peak hours), excess solar capture (route surplus to water heating or battery rather than exporting at low rates), and reserve management (maintain a defined minimum for outages, never depleted by routine loads). Even a relatively cheap portable battery/inverter, like a Jackery or an Ecoflow \'93generator\'94 unit will suffice to launch your home into this more capable layer and make it somewhat resilient to outages. This EMS managed those devices for you. \
+\
+\pard\pardeftab720\sa400\partightenfactor0
+\cf3 The system monitors production and consumption in real time, making adjustments every few seconds rather than on a fixed schedule. This is active management \'97 the same kind a facilities engineer would apply to a commercial building, running continuously in your home.\
+\pard\sa160\partightenfactor0
+
+\f0\b\fs34 \cf2 How This Compares to What You Can Buy\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1\b0\fs26 \cf3 You might reasonably ask: can't I just buy something that does this? The short answer is no \'97 not as an integrated system. Here's what the commercial market actually offers.\
+\pard\sa120\partightenfactor0
+
+\f0\b\fs28 \cf6 Energy Monitors (Emporia Vue, Sense)
+\f3\b0\fs26 \cf5 \
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1 \cf3 These are dashboards. They tell you what you're using, circuit by circuit. Genuinely useful for understanding consumption patterns \'97 the Emporia Vue 3 at around $150 is the standout product in this category. But they don't control anything. They watch; they don't act. And yes, if you have one, or want one, the can be included in the system. I have one in my Maui home\'97a Refoss. Very handy, but not an overall solution. \
+\pard\sa120\partightenfactor0
+
+\f0\b\fs28 \cf6 Smart Thermostats (Nest, Ecobee)
+\f3\b0\fs26 \cf5 \
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1 \cf3 Good at one thing: occupancy-aware HVAC. They operate in isolation \'97 they don't know what your solar panels are producing, what your water heater is doing, or what your utility charges right now. Single-system optimization, not whole-home coordination. And they aren\'92t very good at knowing where you are. So, nice, but not really smart. And of course Home Assistant (and therefore our EMS) works with them. \
+\pard\sa120\partightenfactor0
+
+\f0\b\fs28 \cf6 Smart Panels (Span)
+\f3\b0\fs26 \cf5 \
+\pard\pardeftab720\partightenfactor0
+
+\f1 \cf3 The most ambitious commercial product \'97 replaces your electrical panel with circuit-level monitoring and control. Starts around $2550\'966,000 hardware plus $2,000\'964,000 professional installation. Becomes part of your home's infrastructure. Manages circuits, not the intelligence layer above them. Very nice, I like the idea, but not the price or the functionality. It gives you control, but you\'92re the brains of EMS. \
+\
+And yes, of course Home Assistant (and therefore our EMS) works with them. HA communicates directly with the panel over your local network using gRPC \'97 no cloud, no API keys, no dependencies on Span's servers. The Gen3 SPAN panels replaced the older REST API with a completely new gRPC-based trait system, and existing Span integrations don't support it. We do. \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs28 \cf6 Inverter-Bundled Systems (SolarEdge, Enphase)
+\f1\b0\fs26 \cf3 \
+\
+\pard\pardeftab720\sa280\partightenfactor0
+\cf3 Solar manufacturers have built energy management into their platforms \'97 but only for their own hardware ecosystem. They don't talk to your water heater or your pool pump. Each system optimizes its own piece independently. And yup, same story, HA brings it right into the system. \
+\pard\sa280\partightenfactor0
+
+\f2\i \cf5 The fundamental gap: commercial products either monitor without acting, or act on one system without coordinating the whole. None tie together solar production, battery state, water heating, pool equipment, occupancy, and utility pricing into a single decision-making layer. That integration is what actually moves the needle on your bill.\
+\pard\sa120\partightenfactor0
+
+\f3\i0 \cf5 \
+\pard\pardeftab720\partightenfactor0
+
+\f1\fs24 \cf3 One independent review of the HEMS market concluded that most available systems don't support home automation or intelligence to adjust energy consumption based on user preferences and goals. The proprietary ones are easy to deploy but support little real automation. The open-source ones are powerful but too hard for non-technical users to deploy.That\'92s exactly the gap this system is designed to close.\
+\pard\pardeftab720\sa280\partightenfactor0
+
+\fs26 \cf3 \
+\pard\sa120\partightenfactor0
+
+\f0\b\fs28 \cf6 How It Actually Works
+\f3\b0\fs26 \cf5 \
+\pard\pardeftab720\partightenfactor0
+
+\f1 \cf3 The platform underneath is Home Assistant \'97 open-source, running locally on an $100 Raspberry Pi, supporting thousands of devices, no subscription, your data stays in your home. What's really new is the deployment model.\
+\
+The system will ship as a comprehensive knowledge file \'97 a single document containing everything: every supported device and its integration method, all the automation logic patterns, bill of materials at each tier, configuration templates, and tuning guidance. You load this file into your own Claude Project, and it becomes your personal EMS configurator and builder.\
+From there, building your system is a conversation:\
+\pard\tx360\tx750\pardeftab720\li750\fi-750\partightenfactor0
+\ls1\ilvl0
+\fs21\fsmilli10833 \cf3 \up0 \nosupersub \ulnone {\listtext	1.	}
+\fs26 \up0 \nosupersub \ulnone Describe your home \'97 what systems you have, how you live, what your utility rate structure looks like\
+\ls1\ilvl0
+\fs21\fsmilli10833 \up0 \nosupersub \ulnone {\listtext	2.	}
+\fs26 \up0 \nosupersub \ulnone Describe what you want \'97 'heat water during solar production hours,' 'I want the house at 76\'b0F when we get home,' 'don't run the pool after 10pm'\
+\ls1\ilvl0
+\fs21\fsmilli10833 \up0 \nosupersub \ulnone {\listtext	3.	}
+\fs26 \up0 \nosupersub \ulnone Claude generates your specific configuration \'97 validated, ready to paste into Home Assistant\
+\ls1\ilvl0
+\fs21\fsmilli10833 \up0 \nosupersub \ulnone {\listtext	4.	}
+\fs26 \up0 \nosupersub \ulnone Run it, see what you want to change, describe the change, update\
+\pard\pardeftab720\partightenfactor0
+\cf3 \
+That's it. Copy, paste, test, refine. When things change \'97 new appliance, different schedule, utility changes its rates, you have a clear path to take action \'97 you describe the change and get an updated configuration. No support ticket. No waiting for a vendor update. No programming.\
+\
+This isn't a product you buy. It's a system you build \'97 precisely fitted to your home, your habits, and your goals \'97 with AI doing the technical heavy lifting.\
+\
+Once I had the structure in place I built the prototype energy management system for my house on Maui in about four hours, starting from scratch, working with Claude. Integrating the solar inverter, configuring solar-aware water heater logic, setting up location-based occupancy triggers, writing battery reserve tiers \'97 all of it built through conversation, pasted in, tested, adjusted. No prior expertise in Home Assistant required.\
+\
+Yes, I already had HA up and running, and I\'92ve been playing with it for years, along with a hand-coded similar system I designed for, of all things, a really stupid 1973 GMC motorhome project I poured money and time into five or so years ago (when you\'92re 79, five years means ten, and ten means it happened to someone else). The thing is still sitting at my shop\'9775% done. Halted when I remembered I really don\'92t like motorhomes. \
+\pard\sa280\partightenfactor0
+
+\f3\fs20 \cf3 \
+\pard\sa120\partightenfactor0
+
+\fs26 \cf5 The System Grows With You \'97 Nothing Gets Thrown Away\
+\pard\pardeftab720\partightenfactor0
+
+\f1 \cf3 The underlying structure is designed to scale up or down additively. Every component you add builds on what's already there. You start with what makes sense for your situation and budget, and expand from there \'97 each tier fully functional on its own, each one making the next tier more valuable.\
+\
+\pard\pardeftab720\sa400\partightenfactor0
+\cf3 And when you're ready to go further, the same foundation supports some genuinely powerful additions. AI-enabled security cameras that detect and alert on specific events rather than just recording. A whole-home fire mitigation system with automated sprinkler response. Both build directly on what you'll already have \'97 the Raspberry Pi, the network infrastructure, the Home Assistant platform, the location and occupancy awareness. Nothing built for energy management gets replaced. It just becomes part of a more capable whole.\
+\pard\sa280\partightenfactor0
+
+\f0\b\fs34 \cf2 The Modular Build Path\
+\pard\sa120\partightenfactor0
+
+\fs28 \cf6 Starting Point: Monitoring and Basic Automation (~$150\'96300)
+\f3\b0\fs26 \cf5 \
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1 \cf3 Raspberry Pi running Home Assistant, smart plugs with power monitoring, your phone. Real-time consumption visibility, location-based automation for lights, smart HVAC(if you have it), smart water heater (if you have one), and basic loads. A baseline picture of where your energy goes. Useful on its own and the foundation for everything else.\
+\pard\sa120\partightenfactor0
+
+\f0\b\fs28 \cf6 Adding Appliance Intelligence (~$200\'96500 additional)
+\f3\b0\fs26 \cf5 \
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1 \cf3 Smart switches for your dumb water heater, dumb HVAC integration, pool pump control. High-draw loads under active management. This is where meaningful bill reduction starts. Some of your appliances might already be smart-ish. The Starting Point system can control them natively. \
+\pard\sa120\partightenfactor0
+
+\f0\b\fs28 \cf6 Adding Solar Awareness
+\f3\b0\fs26 \cf5 \
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1 \cf3 If you have solar, integrating your inverter data into Home Assistant is often free \'97 most modern inverters have a local API or can be read via a simple adapter. Now the system makes decisions based on what your panels are producing, not just the clock or a guess at what the weather might be. \
+\pard\sa120\partightenfactor0
+
+\f0\b\fs28 \cf6 Full System with Battery Storage
+\f3\b0\fs26 \cf5 \
+\pard\pardeftab720\sa280\partightenfactor0
+
+\f1 \cf3 Larger Solar/inverter/Battery storage enables more time-of-use arbitrage, more outage resilience, and genuine energy independence. At this level you have a home power plant manager. Every lower tier remains fully functional \'97 nothing replaced, only added to.\
+\pard\sa280\partightenfactor0
+
+\f3 \cf5 \
+\
+\
+\pard\sa400\partightenfactor0
+\cf5 \
+\pard\sa160\partightenfactor0
+
+\f0\b\fs34 \cf2 What It Looks Like Day to Day\
+\pard\pardeftab720\partightenfactor0
+
+\f1\b0\fs26 \cf3 Morning departure: Both phones leave the property. Water heater drops to holding temperature. Pool filtration shifts to a midday solar window. Phantom loads cut power to standby devices. HVAC drops load to a minimum level that protects your home (appliances, pipes, etc). You decide what that is. \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f4\b \cf3 Midday solar peak:
+\f1\b0  Production exceeds consumption. Excess power routes to the water heater \'97 heating for free. Battery tops up. Pool pump runs its full cycle.\
+\
+
+\f4\b Homeward bound: 
+\f1\b0 Phones detected moving toward home at highway speed. Arrival time calculated. Climate adjusted to reach comfort settings on schedule. You walk in to a normal house.\
+\
+
+\f4\b Utility peak hours:
+\f1\b0  Battery discharges to cover household loads. Grid draw drops to near zero during the most expensive rate window. Battery recharges from solar the next morning.\
+\
+\pard\pardeftab720\sa400\partightenfactor0
+
+\f4\b \cf3 Away for a week:
+\f1\b0  System drops to minimal maintenance mode \'97 water heater at minimum safe temperature, pool on minimum filtration, everything else off. Estimated savings versus normal operation: 40\'9660% of weekly energy cost.\
+\pard\sa160\partightenfactor0
+
+\f0\b\fs34 \cf2 The Honest Caveats\
+\pard\pardeftab720\partightenfactor0
+
+\f1\b0\fs26 \cf3 Location-based automation works well when phones are reliable \'97 but phones lose coverage, run out of battery, and occasionally get left behind. Graceful fallback logic for those edge cases is still being refined. We\'92ve made it a little better by using the HA companion app installed on our phones instead of just native phone capabilities, but I\'92d like it to be a bit more reliable. \
+\
+The setup requires some technical comfort. The AI-configured model lowers the bar considerably, but you still need to be comfortable with basic command-line operations. That's a real constraint, but it\'92s relatively easy to overcome.\
+\
+And like any automation system, it needs tuning. The first few weeks involve calibration \'97 adjusting location radii, getting recovery timing right, learning actual patterns. It gets better with use.\
+\
+\pard\pardeftab720\sa400\partightenfactor0
+\cf3 We\'92re still building this. If someone wanted a version today I could jump ahead, cobble together something useful, and give them a file from my git repo to dump into their instance of Claude.ai. None of these are showstoppers. They're just honest.\
+\pard\sa160\partightenfactor0
+
+\f0\b\fs34 \cf2 Where This Is Going\
+\pard\pardeftab720\partightenfactor0
+
+\f1\b0\fs26 \cf3 My Maui house is an unusual test environment \'97 no heat or AC, mild climate, off-grid guest house. The real test will be our house in Hood River, Oregon: proper winters, real HVAC, time-of-use utility rates, and a lifestyle involving a lot of coming and going. I'll be documenting that build-out as it happens.\
+\
+The knowledge file \'97 the AI deployment package that makes all of this buildable by anyone \'97 is in active development. The goal is a document any homeowner can load into their Claude Project and use to build a system precisely fitted to their home, in an afternoon.\
+\
+\pard\pardeftab720\sa400\partightenfactor0
+\cf3 If you're interested in building something like this, or already running Home Assistant and want to compare notes, I'd like to hear from you. The whole point of doing this in the open is that it gets better when more people are working on it.\
+\pard\sa400\partightenfactor0
+
+\f0\b\fs34 \cf2 \
+\pard\sa160\partightenfactor0
+\cf2 \
+\pard\tx1150\pardeftab720\partightenfactor0
+
+\f4\fs24 \cf3 Bill Babcock
+\fs20 \
+
+\fs24 ExpertAmateur.com}
